@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Autostart po uruchomieniu urządzenia -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!-- Serwis foreground (wymagane od Android 9) -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <application
+        android:label="@string/app_name"
+        android:icon="@drawable/ic_launcher"
+        android:allowBackup="false">
+
+        <!--
+            TtsService — serwis HTTP na localhost:7799
+            exported=false — niedostępny dla innych aplikacji
+        -->
+        <service
+            android:name=".TtsService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <!--
+            BootReceiver — startuje serwis po włączeniu TV/boxa
+            exported=true — musi odbierać intent systemowy BOOT_COMPLETED
+        -->
+        <receiver
+            android:name=".BootReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+
+</manifest>
